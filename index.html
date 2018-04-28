@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script src="js/dist/clappr.js"></script>
+    <script src="js/dist/jquery-3.3.1.js"></script>
+    <script src="js/dist/lodash.js"></script>
+    <script src="js/dist/jquery-ui.js"></script>
+    <script src="js/ajaxform.js"></script>
+    <link href="css/dist/jquery-ui.css" rel="stylesheet">
+    <link href="css/dist/jquery-ui.structure.css" rel="stylesheet">
+    <link href="css/dist/jquery-ui.theme.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+    <title>title</title>
+</head>
+
+<body>
+    <div id="box">
+        <input type="text" class="date" id="date" />
+        <br/>
+        <input type="submit" name="submit" id="submit" value="Get" />
+        <br/>
+        <div id="result"></div>
+    </div>
+    <div id="player"></div>
+
+    <script>
+        var player = new Clappr.Player({
+            source: "playlists/1.m3u8",
+            parentId: "#player",
+            mute: true
+        });
+    </script>
+</body>
+
+</html>
