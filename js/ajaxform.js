@@ -1,3 +1,5 @@
+var jsonIngress = 
+
 var databaseDates = ["05/04/2018", "07/04/2018", "22/04/2018"];
 
 var dateExcluder = function(date) {
