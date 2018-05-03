@@ -1,11 +1,6 @@
 <?php
 include_once __DIR__ . '/../config.php';
-require __DIR__ . '/logger.php';
-
-playlistBuilder(
-    "E:\\cctv\\91614fae-dfcb-3be6-9958-5fa07b248114\\2018\\05\\01",
-    "91614fae-dfcb-3be6-9958-5fa07b248114_2018_05_01"
-);
+include_once __DIR__ . '/logger.php';
 
 function playlistBuilder($path, $output)
 {
@@ -60,13 +55,16 @@ function playlistSplitter($files)
     $prevFileTime = null;
     $sliceArray = [];
     $array = [];
-    logger("++ Total filecount: " . count($files));
+    logger("++ Total filecount of matching files in directory: " . count($files));
     foreach ($files as $file) {
         $fileTime = (int) substr($file, 0, 10);
         if ($prevFileTime) {
             if ($fileTime - $prevFileTime > PLAYLISTCUTOFF) {
                 logger("++ Found duration gap between files greater than " . PLAYLISTCUTOFF . "s");
-                logger("++ Duration between " . $prevFileTime . " and " . $fileTime . " is: " . ($fileTime - $prevFileTime) . "s");
+                logger(
+                    "++ Found duration gap between files greater than " . PLAYLISTCUTOFF . "s - Duration between " .
+                    $prevFileTime . " and " . $fileTime . " is: " . ($fileTime - $prevFileTime) . "s"
+                );
                 $sliceArray[] = $file;
                 logger("++ Splitting into another playlist at file number " . array_search($file, $files));
             }
@@ -86,7 +84,10 @@ function playlistSplitter($files)
     if (!empty($files)) {
         $result[] = $files;
     }
-    logger("++ Playlist split into " . count($result) . " chunks");
+    $counter = count($result);
+    if ($counter > 1) {
+        logger("++ Playlist split into " . $counter . " chunks");
+    }
 
     // logger($result);
     return $result;
