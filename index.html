@@ -12,6 +12,8 @@
     <link href="css/dist/jquery-ui.structure.css" rel="stylesheet">
     <link href="css/dist/jquery-ui.theme.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
+
+
     <title>title</title>
 </head>
 
@@ -24,11 +26,13 @@
         <div id="result"></div>
     </div> -->
     <div id="player"></div>
-
     <script>
+        // Clappr.Log.setLevel(0)
         var player = new Clappr.Player({
             source: "playlists/1.m3u8",
             parentId: "#player",
+            preload: "auto",
+            autoPlay: true,
             mute: true
         });
     </script>

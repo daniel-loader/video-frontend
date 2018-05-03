@@ -1,25 +1,26 @@
 <?php
 include_once __DIR__ . '/../config.php';
 require __DIR__ . '/logger.php';
-require __DIR__ . '/playlist.php';
+require __DIR__ . '/test.php';
 
 //debug printing
-logger("++ Building index of directories in $cctvAbsolutePath: ");
-$directories = rawDirectoryMapper($cctvAbsolutePath);
-logger($directories);
-logger("++ Finding directories with meta folder children: ");
-logger(validPaths($directories));
-logger("++ Array of valid cameras with nametag: ");
-$camaraWithMeta = cameraNameMapper(validPaths($directories));
-logger($camaraWithMeta);
-logger("++ Array of valid cameras and associated dates available: ");
-$foundCameraDates = validCameraDates(validPaths($directories));
-logger($foundCameraDates);
+// logger("++ Building index of directories in $cctvAbsolutePath: ");
+// $directories = rawDirectoryMapper($cctvAbsolutePath);
+// logger($directories);
+// logger("++ Finding directories with meta folder children: ");
+// logger(validPaths($directories));
+// logger("++ Array of valid cameras with nametag: ");
+// $camaraWithMeta = cameraNameMapper(validPaths($directories));
+// logger($camaraWithMeta);
+// logger("++ Array of valid cameras and associated dates available: ");
+// $foundCameraDates = validCameraDates(validPaths($directories));
+// logger($foundCameraDates);
 
-foreach (validPaths($directories) as $paths) {
-    playlistBuilder($paths);
-}
+// foreach (validPaths($directories) as $paths) {
+//     playlistBuilder($paths);
+// }
 
+playlistBuilder("E:\\cctv\\91614fae-dfcb-3be6-9958-5fa07b248114\\2018\\05\\01", "test");
 function cameraNameMapper($paths)
 {
     $directoryArray = [];
