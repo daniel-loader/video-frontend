@@ -1,11 +1,11 @@
 home.spicypixel.co.uk {
     on startup e:\php\php-cgi.exe -b 127.0.0.1:9000 &
-    root e:\testing
+    root .
     fastcgi / 127.0.0.1:9000 php
     cors
 }
 home.spicypixel.co.uk/cctv {
     cors
-    root e:\cctv
+    root ../cctv
 }
 

@@ -2,40 +2,96 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <script src="js/dist/clappr.js"></script>
-    <script src="js/dist/jquery-3.3.1.js"></script>
-    <script src="js/dist/lodash.js"></script>
-    <script src="js/dist/jquery-ui.js"></script>
-    <script src="js/ajaxform.js"></script>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="css/dist/jquery-ui.css" rel="stylesheet">
     <link href="css/dist/jquery-ui.structure.css" rel="stylesheet">
     <link href="css/dist/jquery-ui.theme.css" rel="stylesheet">
+    <link href="css/dist/bootstrap.min.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
+    <script src="js/dist/clappr.js"></script>
+    <script>window.clappr = Clappr</script>
+    <script src="js/dist/clappr-responsive-container-plugin.js"></script>
+    <script src="js/dist/clappr-playback-rate-plugin.min.js"></script>
+    <script>window.PlaybackRatePlugin = window['clappr-playback-rate-plugin'].default</script>
+    <script src="https://cdn.jsdelivr.net/npm/clappr-chromecast-plugin@latest/dist/clappr-chromecast-plugin.min.js"></script>
+    <script src="js/dist/lodash.js"></script>
+    <script src="js/ajaxform.js"></script>
 
-
-    <title>title</title>
+    <title>CCTV Viewer</title>
 </head>
 
 <body>
-    <!-- <div id="box">
-        <input type="text" class="date" id="date" />
-        <br/>
-        <input type="submit" name="submit" id="submit" value="Get" />
-        <br/>
-        <div id="result"></div>
-    </div> -->
-    <div id="player"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                CCTV Viewer
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8.order-2">
+                <div id="player"></div>
+            </div>
+            <div class="col-md-4.order-1">
+                <div id="box">
+                    <div>
+                        <select id="camera" name="camera">
+                            <option value="-1">- Select Camera -</option>
+                        </select>
+                    </div>
+                    <div class="date" id="date"></div>
+                    <div>
+                        <select id="playlist" name="playlist">
+                            <option>- Playlists -</option>
+                        </select>
+                    </div>
+                    <div>
+                        <input type="submit" name="submit" id="submit" value="Play" />
+                    </div>
+                </div>
+                <pre><div class="message"></div></pre>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                Debug:
+                <div id="result"></div>
+            </div>
+        </div>
+    </div>
+
+
     <script>
         // Clappr.Log.setLevel(0)
         var player = new Clappr.Player({
-            source: "playlists/1.m3u8",
+            source: "splash.mp4",
             parentId: "#player",
             preload: "auto",
+            chromeless: true,
+            loop: true,
             autoPlay: true,
-            mute: true
+            mute: true,
+            playbackRateConfig: {
+                defaultValue: '1.0',
+                options: [
+                    { value: '0.5', label: '0.5x' },
+                    { value: '1.0', label: '1x' },
+                    { value: '2.0', label: '2x' },
+                    { value: '4.0', label: '4x' },
+                    { value: '8.0', label: '8x' }
+                ]
+            },
+            plugins: {
+                'core': [PlaybackRatePlugin],
+                container: [ResponsiveContainer]
+            }
         });
     </script>
+    <script src="js/dist/popper.min.js"></script>
+    <script src="js/dist/bootstrap.min.js"></script>
+    <script src="js/dist/jquery-3.3.1.js"></script>
+    <script src="js/dist/jquery-ui.js"></script>
 </body>
 
 </html>
