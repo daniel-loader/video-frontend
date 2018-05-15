@@ -60,7 +60,6 @@ function playlist_writer($files, $key, $output)
     $playlist = <<<EOF
 #EXTM3U
 #EXT-X-VERSION:3
-#EXT-X-TARGETDURATION:8
 #EXT-X-MEDIA-SEQUENCE:0
 #EXT-X-PLAYLIST-TYPE:VOD
 #EXT-X-INDEPENDENT-SEGMENTS
@@ -253,10 +252,10 @@ function rate_limiter($file)
     if (file_exists($file)) {
         $diff = time() - filemtime($file);
         if ($diff > RATELIMIT) {
-            logger("++ $file is older than ".RATELIMIT." seconds, creating");
+            logger("++ $file is older than " . RATELIMIT . " seconds, creating");
             return true;
         } else {
-            logger("++ $file exists and isn't older than ".RATELIMIT." seconds, skipping");
+            logger("++ $file exists and isn't older than " . RATELIMIT . " seconds, skipping");
         }
     } else {
         logger("++ $file doesn't exist, creating");
