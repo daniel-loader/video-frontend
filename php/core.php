@@ -1,11 +1,11 @@
 <?php
-function global_playlist_builder($directories)
-{
-    foreach ($directories as $path) {
-        playlist_builder($path, playlist_name($path));
-    }
-    clean_old_playlists();
-}
+// function global_playlist_builder($directories)
+// {
+//     foreach ($directories as $path) {
+//         playlist_builder($path, playlist_name($path));
+//     }
+//     clean_old_playlists();
+// }
 
 function playlist_name($path)
 {
@@ -17,12 +17,12 @@ function playlist_name($path)
 }
 function playlist_builder($path, $output)
 {
-    logger("++ Building playlist in: " . $path . ":");
     $fileArray = file_finder($path);
     array_walk_recursive($fileArray, 'prepend_path', $path);
     foreach ($fileArray as $key => $chunks) {
-        playlist_writer($chunks, $key, $output);
+        $playlists[] = playlist_writer($chunks, $key, $output);
     }
+    return $playlists;
 }
 
 function clean_old_playlists()
@@ -60,6 +60,7 @@ function playlist_writer($files, $key, $output)
     $playlist = <<<EOF
 #EXTM3U
 #EXT-X-VERSION:3
+#EXT-X-TARGETDURATION:20
 #EXT-X-MEDIA-SEQUENCE:0
 #EXT-X-PLAYLIST-TYPE:VOD
 #EXT-X-INDEPENDENT-SEGMENTS
@@ -73,9 +74,17 @@ EOF;
     $playlist .= '#EXT-X-ENDLIST' . PHP_EOL;
 
     $playlistFile = $output . "_" . $key . ".m3u8";
-    file_put_contents("playlists/" . $playlistFile, $playlist);
+    file_put_contents(PLAYLISTPATH . $playlistFile, $playlist);
     logger("++ Parsing input array; videos found - " . ((substr_count($playlist, ".mp4")) - 1));
     logger("++ Created playlist $playlistFile - " . (substr_count($playlist, PHP_EOL)) . " lines written to file");
+    $startTime = intval(substr(basename(reset($playlistFiles)), 0, 10));
+    $endTime = intval(substr(basename(end($playlistFiles)), 0, 10));
+    $return = [];
+    $return[$playlistFile]["startTime"] = $startTime;
+    $return[$playlistFile]["endTime"] = $endTime;
+    $return[$playlistFile]["duration"] = $endTime - $startTime;
+    $return[$playlistFile]["generated"] = time();
+    return $return;
 }
 
 function file_finder($path)

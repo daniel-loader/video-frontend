@@ -1,7 +1,7 @@
 <?php
-require __DIR__ . '/config.php';
-require __DIR__ . '/php/logger.php';
-require __DIR__ . '/php/core.php';
+require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/php/logger.php';
+require_once __DIR__ . '/php/core.php';
 //require __DIR__ . '/php/test.php';
 
 // switchcase goes here to map ajax calls to functions below
@@ -71,7 +71,7 @@ if (rate_limiter($file, 300)) {
     fclose($handle);
 }
 logger("++ Array of valid cameras and associated dates available: ");
-$file = "json/dates.json";
+$file = "json/cached.json";
 $cameraDates = map_camera_dates($directories);
 logger($cameraDates);
 $formattedDates = json_encode($cameraDates);
@@ -81,4 +81,4 @@ if (rate_limiter($file, 300)) {
     fclose($handle);
 }
 
-//global_playlist_builder($directories);
+global_playlist_builder($directories);

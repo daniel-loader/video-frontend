@@ -5,6 +5,7 @@ function getjson(callback) {
     $.getJSON("json/cached.json", function(data) {
         globalData = data;
         callback(data);
+        console.log(globalData);
     });
 }
 
@@ -26,18 +27,25 @@ function select_playlist() {
     } else {
         cameraUUID = globalData.cameras[cameraIndex].uuid;
         console.group("select_playlist");
-        playlistURl = [playlistDirectory, cameraPlaylist]
-            .filter(Boolean)
-            .join("/");
-        console.log(playlistURl);
+        playlistURL = [playlistDirectory, cameraPlaylist].filter(Boolean).join("/");
+        console.log(playlistURL);
         console.groupEnd();
         // Assume player instance is already created
         player.configure({
-            source: playlistURl,
+            source: playlistURL,
             loop: false,
             chromeless: false
         });
     }
+}
+
+function unix_to_localtime(unixtime) {
+    var time = new Date(unixtime * 1000);
+    var hours = ("0" + time.getHours()).slice(-2);
+    var minutes = ("0" + time.getMinutes()).slice(-2);
+    var seconds = ("0" + time.getSeconds()).slice(-2);
+    localtime = hours + ":" + minutes + ":" + seconds;
+    return localtime;
 }
 
 function datepicker_populate() {
@@ -64,19 +72,15 @@ function datepicker_populate() {
 
 function playlist_populate() {
     var cameraIndex = $("#camera").val();
-    var date = $.datepicker.formatDate(
-        "yy/mm/dd",
-        $(this).datepicker("getDate")
-    );
+    var date = $.datepicker.formatDate("yy/mm/dd", $(this).datepicker("getDate"));
 
     $("#playlist").empty();
-    globalData.cameras[cameraIndex].dates[date].forEach(function(
-        playlist,
-        index
-    ) {
+    Object.keys(globalData.cameras[cameraIndex].dates[date].playlists).forEach(function(playlist) {
+        startTime = unix_to_localtime(globalData.cameras[cameraIndex].dates[date].playlists[playlist].startTime);
+        endTime = unix_to_localtime(globalData.cameras[cameraIndex].dates[date].playlists[playlist].endTime);
         $elem = $("<option>")
             .val(playlist)
-            .text("Playlist " + (index + 1));
+            .text(startTime + " to " + endTime);
         $("#playlist").append($elem);
     });
 }
