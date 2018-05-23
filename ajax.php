@@ -54,31 +54,3 @@ function refresh_playlist($ajaxPost)
 // function for exporting video to /exports and returning download link
 
 // function for full reindex of files to create playlists (should be hidden by default)
-
-// // debug printing
-logger("++ Building index of directories in " . CCTVABSOLUTEPATH . ":");
-$directories = directory_mapper(CCTVABSOLUTEPATH);
-logger($directories);
-
-logger("++ Array of valid cameras with nametag: ");
-$file = "json/names.json";
-$cameraNames = map_camera_names($directories);
-logger($cameraNames);
-$formattedNames = json_encode($cameraNames);
-if (rate_limiter($file, 300)) {
-    $handle = fopen($file, 'w+');
-    fwrite($handle, $formattedNames);
-    fclose($handle);
-}
-logger("++ Array of valid cameras and associated dates available: ");
-$file = "json/cached.json";
-$cameraDates = map_camera_dates($directories);
-logger($cameraDates);
-$formattedDates = json_encode($cameraDates);
-if (rate_limiter($file, 300)) {
-    $handle = fopen($file, 'w+');
-    fwrite($handle, $formattedDates);
-    fclose($handle);
-}
-
-global_playlist_builder($directories);

@@ -2,7 +2,7 @@ var globalData;
 var databaseDates;
 
 function getjson(callback) {
-    $.getJSON("json/cached.json", function(data) {
+    $.getJSON("cached.json", function(data) {
         globalData = data;
         callback(data);
         console.log(globalData);
